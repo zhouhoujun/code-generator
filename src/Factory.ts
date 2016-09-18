@@ -1,13 +1,10 @@
 import { IFactory } from './IFactory';
 import { IComponent } from './IComponent';
 import { CodeComponent } from './components/CodeComponent';
-import { ActionComponent } from './components/ActionComponent';
-import { StateComponent } from './components/StateComponent';
-import { OptionsComponent } from './components/OptionsComponent';
-import { OptionComponent } from './components/OptionComponent';
+import { ClassComponent } from './components/ClassComponent';
+import { AttrComponent } from './components/AttrComponent';
 import { FuncComponent } from './components/FuncComponent';
-import { ConditionsComponent } from './components/ConditionsComponent';
-import { ConditionComponent } from './components/ConditionComponent';
+import { ParamsComponent } from './components/ParamsComponent';
 
 export class Factory implements IFactory {
     constructor() {
@@ -15,21 +12,18 @@ export class Factory implements IFactory {
     }
     create(jsonNode, parentComponent?: IComponent) {
         let component;
-        switch (jsonNode.componentType) {
+        switch (jsonNode.t) {
             case 'code':
                 component = new CodeComponent(parentComponent, jsonNode);
                 break;
-            case 'action':
-                component = new ActionComponent(parentComponent, jsonNode);
+            case 'class':
+                component = new ClassComponent(parentComponent, jsonNode);
                 break;
-            case 'state':
-                component = new StateComponent(parentComponent, jsonNode);
+            case 'attr':
+                component = new AttrComponent(parentComponent, jsonNode);
                 break;
-            case 'options':
-                component = new OptionsComponent(parentComponent, jsonNode);
-                break;
-            case 'option':
-                component = new OptionComponent(parentComponent, jsonNode);
+            case 'params':
+                component = new ParamsComponent(parentComponent, jsonNode);
                 break;
             case 'func':
                 component = new FuncComponent(parentComponent, jsonNode);

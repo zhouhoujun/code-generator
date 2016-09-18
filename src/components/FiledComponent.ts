@@ -1,5 +1,5 @@
-import modes, { IJsonNode, Component } from './Component';
-import componentTypes, { IComponent, ILanguage } from '../IComponent';
+import modes, {Component } from './Component';
+import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 
 export class FiledComponent extends Component {
     name = componentTypes.field;

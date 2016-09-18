@@ -1,25 +1,9 @@
-import { IMap, IComponent, ILanguage } from '../IComponent';
+import { IJsonNode, IComponent, ILanguage } from '../IComponent';
 import * as _ from 'lodash';
 import TypeScript from '../language/TypeScript';
 
 
-// export * from '../IComponent';
-export interface IJsonNode extends IMap<string|Number|Boolean|IJsonNode[]> {
-    /**
-     * type 
-     * 
-     * @type {string}
-     * @memberOf IJsonNode
-     */
-    t: string;
-    /**
-     * children json node.
-     * 
-     * @type {IJsonNode[]}
-     * @memberOf IJsonNode
-     */
-    chn?: IJsonNode[]
-}
+
 
 /**
  * each mode types.

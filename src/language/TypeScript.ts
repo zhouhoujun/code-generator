@@ -16,6 +16,7 @@ export class \${templateData.className}\${templateData.extends}\${templateData.i
 \${ templateData.constructors }
 \${ templateData.methods }
 }`,
+    params: '${childrenCode}',
     constructor: `
 constructor(\${ templateData.params }){
     \${childrenCode}
@@ -45,7 +46,7 @@ function \${ templateData.funcName } (\${templateData.params}): \${templateData.
     lambda: `(\${templateData.params}) => {
         \${childrenCode}
     }`,
-    express: 'express',
+    express: '${paramA} ${opter} ${paramsB}',
     if: `
 \${ prefix }
 if (\${templateData.conditions}) {

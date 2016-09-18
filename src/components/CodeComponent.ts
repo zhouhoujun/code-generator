@@ -1,9 +1,9 @@
 import { Component } from './Component';
-import componentTypes, { ILanguage } from '../IComponent';
+import componentTypes, {IJsonNode, ILanguage } from '../IComponent';
 
 export class CodeComponent extends Component {
     name = componentTypes.code;
-    constructor(parent, jsonData) {
+    constructor(parent, jsonData: IJsonNode) {
         super(parent, jsonData);
     }
 

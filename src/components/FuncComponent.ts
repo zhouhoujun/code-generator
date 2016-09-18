@@ -1,22 +1,35 @@
-import { Component } from './Component';
-import componentTypes from '../IComponent';
+import modes, { Component } from './Component';
+import componentTypes, { IJsonNode, ILanguage, IComponent } from '../IComponent';
 
 export class FuncComponent extends Component {
     name = componentTypes.func;
-    constructor(parent, jsonData) {
+    constructor(parent: IComponent, jsonData: IJsonNode) {
         super(parent, jsonData);
     }
 
-    exportData() {
-        if (!this.jsonData) {
-            return '';
-        }
-        let optionStr = `${this.jsonData.value}(${Array.isArray(this.jsonData.params) ? this.jsonData.params.join(',') : ''});
-        `;
-        return optionStr;
+    protected getParams(): IComponent {
+        return this.find(it => it.name === componentTypes.params);
     }
 
-    exportTemplate() {
-        return '${templateData}';
+    exportData(language: ILanguage) {
+        let params = this.getParams();
+        let paramsStr = params.exportCode(language);
+        let name = this.jsonData['funcName'] || this.jsonData['name'];
+        let type = this.jsonData['type'] || language.defaultType;
+        return {
+            funcName: name,
+            params: paramsStr,
+            type: type
+        };
+    }
+
+    exportChildrenCode(language: ILanguage) {
+        let code = '';
+        this.each(item => {
+            if (item.name !== componentTypes.params) {
+                code += item.exportCode(language);
+            }
+        }, modes.children);
+        return code;
     }
 }

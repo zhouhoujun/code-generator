@@ -1,5 +1,5 @@
-import { IComponent } from './IComponent';
+import { IJsonNode, IComponent } from './IComponent';
 
 export interface IFactory {
-    create(json: any, parent?: IComponent): IComponent;
+    create(json: IJsonNode, parent?: IComponent): IComponent;
 }
