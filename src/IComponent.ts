@@ -1,4 +1,15 @@
 /**
+ * object map. 
+ * 
+ * @export
+ * @interface IMap
+ * @template T
+ */
+export interface IMap<T> {
+    [K: string]: T;
+}
+
+/**
  * code component.
  * 
  * @export
@@ -36,20 +47,32 @@ export interface IComponent {
      * find sub component via express.
      * 
      * @param {(IComponent | ((item: IComponent) => boolean))} express
+     * @param {string} [mode] {enum:['route','children', traverse']} default traverse.
      * @returns {IComponent}
      * 
      * @memberOf IComponent
      */
-    find(express: IComponent | ((item: IComponent) => boolean)): IComponent;
+    find(express: IComponent | ((item: IComponent) => boolean), mode?: string): IComponent
+
+    /**
+     * filter items.
+     * 
+     * @param {(((item: IComponent) => void | boolean))} express
+     * @param {string} [mode] {enum:['route','children', traverse']} default traverse.
+     * @returns {IComponent[]}
+     * 
+     * @memberOf IComponent
+     */
+    filter(express: ((item: IComponent) => void | boolean), mode?: string): IComponent[]
     /**
      * find parent component via express.
      * 
      * @param {(IComponent | ((item: IComponent) => boolean))} express
-     * @returns {IComponent}
+     * @param {string} [mode] {enum:['route','children', traverse']} default traverse.
      * 
      * @memberOf IComponent
      */
-    findParent(express: IComponent | ((item: IComponent) => boolean)): IComponent;
+    each(express: ((item: IComponent) => void | boolean), mode?: string);
     /**
      * do express work in routing.
      * 
@@ -82,7 +105,7 @@ export interface IComponent {
      * 
      * @memberOf IComponent
      */
-    prefixFormat(): string;
+    prefixFormat(language: ILanguage): string;
     /**
      * add suffix code of this component
      * 
@@ -99,7 +122,7 @@ export interface IComponent {
      * 
      * @memberOf IComponent
      */
-    suffixFormat(): string;
+    suffixFormat(language: ILanguage): string;
     /**
      * export code.
      * 
@@ -107,23 +130,48 @@ export interface IComponent {
      * 
      * @memberOf IComponent
      */
-    exportCode(): string;
+    exportCode(language?: ILanguage): string;
 }
 
-export default {
+export interface ILanguage {
+    code: string;
+    defaultType?: string;
+    defaultLevel?: number;
+    levels?: string[];
+    class?: string;
+    constructors?: string;
+    method: string;
+    field: string;
+    attr?: string;
+    func?: string;
+    lambda?: string;
+    express: string;
+    if: string;
+    elseif: string;
+    else: string;
+    switch: string;
+    case: string;
+}
+
+export default <ILanguage>{
     code: 'code',
     class: 'class',
+    constructors: 'constructors',
     method: 'method',
     field: 'field',
-    getter：'getter',
-    setter: 'setter',
+    attr: 'attr',
     func: 'func',
     lambda: 'lambda',
     express: 'express',
+    if: 'if',
+    elseif: 'elseif',
+    else: 'else',
+    switch: 'switch',
+    case: 'case',
+
     state: 'state',
     options: 'options',
     option: 'option',
-    func: 'func',
     conditions: 'conditions',
     condition: 'condition'
 }

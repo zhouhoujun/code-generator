@@ -32,9 +32,8 @@
     "type": "git",
     "url": "https://github.com/zhouhoujun/code-generator.git"
   },
-  "dependencies": {    
-    "typescript-formatter": "^2.3.0",
-    "through2": "^2.0.1"
+  "dependencies": {
+    "lodash":"^4.13.1"
   },
   "devDependencies": {
     "typescript":"^1.8.10",

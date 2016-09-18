@@ -1,6 +1,6 @@
 import { IFactory } from './IFactory';
 import { IComponent } from './IComponent';
-import { PolicyComponent } from './components/PolicyComponent';
+import { CodeComponent } from './components/CodeComponent';
 import { ActionComponent } from './components/ActionComponent';
 import { StateComponent } from './components/StateComponent';
 import { OptionsComponent } from './components/OptionsComponent';

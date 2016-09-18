@@ -24,18 +24,18 @@ npm install
 ```ts
 import  { Builder, Factory, TypeScript, IFactory, IComponent } from 'code-generator';
 let data:any; //json data
-let builder = new Builder(new Factory(TypeScript));
+let builder = new Builder(new Factory());
 let coder = builder.build(data);
 
-let code = coder.exportCode();
+let code = coder.exportCode(TypeScript);
 ```
 ```js
 import  { Builder, Factory , JavaScript} from 'code-generator';
 let data:any; //json data
-let builder = new Builder(new Factory(JavaScript));
+let builder = new Builder(new Factory());
 let coder = builder.build(data);
 
-let code = ncoder.exportCode();
+let code = ncoder.exportCode(JavaScript);
 ```
 
 ## Documentation

@@ -1,8 +1,8 @@
 import { Component } from './Component';
 import componentTypes, { ILanguage } from '../IComponent';
 
-export class CodeComponent extends Component {
-    name = componentTypes.code;
+export class AttrComponent extends Component {
+    name = componentTypes.attr;
     constructor(parent, jsonData) {
         super(parent, jsonData);
     }

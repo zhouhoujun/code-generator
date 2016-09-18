@@ -1,15 +1,49 @@
-import { IComponent } from '../IComponent';
+import { IMap, IComponent, ILanguage } from '../IComponent';
 import * as _ from 'lodash';
+import TypeScript from '../language/TypeScript';
+
 
 // export * from '../IComponent';
+export interface IJsonNode extends IMap<string|Number|Boolean|IJsonNode[]> {
+    /**
+     * type 
+     * 
+     * @type {string}
+     * @memberOf IJsonNode
+     */
+    t: string;
+    /**
+     * children json node.
+     * 
+     * @type {IJsonNode[]}
+     * @memberOf IJsonNode
+     */
+    chn?: IJsonNode[]
+}
 
+/**
+ * each mode types.
+ */
+export default {
+    route: 'route',
+    children: 'children',
+    traverse: 'traverse'
+}
+/**
+ * Component for code.
+ * 
+ * @export
+ * @abstract
+ * @class Component
+ * @implements {IComponent}
+ */
 export abstract class Component implements IComponent {
     name: string;
     children: IComponent[] = [];
     parent: IComponent;
     prefixStrs: string[] = [];
     suffixStrs: string[] = [];
-    constructor(parent, protected jsonData) {
+    constructor(parent: IComponent, protected jsonData: IJsonNode) {
         this.parent = parent;
     }
 
@@ -19,9 +53,9 @@ export abstract class Component implements IComponent {
     remove(component?: IComponent): void {
         _.remove(this.children, component);
     }
-    find(express: IComponent | ((item: IComponent) => boolean)): IComponent {
+    find(express: IComponent | ((item: IComponent) => boolean), mode?: string): IComponent {
         let component: IComponent;
-        this.trans(item => {
+        this.each(item => {
             if (component) {
                 return false;
             }
@@ -31,24 +65,41 @@ export abstract class Component implements IComponent {
                 return false;
             }
             return true;
-        });
+        }, mode);
         return component;
     }
-    findParent(express: IComponent | ((item: IComponent) => boolean)): IComponent {
-        let component: IComponent;
-        this.route(item => {
-            if (component) {
-                return false;
+
+    filter(express: ((item: IComponent) => void | boolean), mode?: string): IComponent[] {
+        let componts: IComponent[] = [];
+        this.each(item => {
+            if (express(item)) {
+                componts.push(item);
             }
-            let isFinded = _.isFunction(express) ? express(item) : (<IComponent>express) === item;
-            if (isFinded) {
-                component = item;
-                return false;
-            }
-            return true;
-        });
-        return component;
+        }, mode);
+        return componts;
     }
+
+    each(express: ((item: IComponent) => void | boolean), mode?: string) {
+        mode = mode || '';
+        let r;
+        switch (mode) {
+            case 'route':
+                r = this.route(express);
+                break;
+            case 'children':
+                r = this.eachChildren(express);
+                break;
+
+            case 'traverse':
+                r = this.trans(express);
+                break;
+            default:
+                r = this.trans(express);
+                break;
+        }
+        return r;
+    }
+
     route(express: ((item: IComponent) => void | boolean)) {
         if (!express(this)) {
             return false;
@@ -74,36 +125,39 @@ export abstract class Component implements IComponent {
     prefix(code: string, index?: number) {
         this.insert(this.prefixStrs, code, index);
     }
-    prefixFormat(): string {
+    prefixFormat(language: ILanguage): string {
         return this.prefixStrs.join(';\n');
     }
     suffix(code: string, index?: number) {
         this.insert(this.suffixStrs, code, index);
     }
-    suffixFormat(): string {
+    suffixFormat(language: ILanguage): string {
         return this.suffixStrs.join(';\n');
     }
 
-    exportChildrenCode() {
+    exportChildrenCode(language: ILanguage) {
         let childrenCode = '';
         _.each(this.children, item => {
-            childrenCode += item.exportCode();
+            childrenCode += item.exportCode(language);
         });
         return childrenCode;
     }
 
-    exportCode(): string {
+    exportCode(language?: ILanguage): string {
+        language = language || TypeScript;
         let self = this;
-        let childrenCode = this.exportChildrenCode();
-        return _.template(this.exportTemplate())({
-            prefix: self.prefixFormat(),
-            suffix: self.suffixFormat(),
-            templateData: self.exportData(),
+        let childrenCode = this.exportChildrenCode(language);
+        return _.template(this.exportTemplate(language))({
+            prefix: self.prefixFormat(language),
+            suffix: self.suffixFormat(language),
+            templateData: self.exportData(language),
             childrenCode: childrenCode
         });
     }
-    protected abstract exportTemplate(): string;
-    protected abstract exportData(): string | {};
+    protected exportTemplate(language: ILanguage): string {
+        return language[this.name];
+    }
+    protected abstract exportData(language: ILanguage): string | {};
     protected insert(array: string[], code: string, index?: number) {
         if (index !== undefined) {
             array.splice(index, 0, code);
