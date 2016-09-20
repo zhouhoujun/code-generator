@@ -1,6 +1,12 @@
 import modes, { Component } from './Component';
 import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 
+export interface ClassJson extends IJsonNode {
+    className?: string;
+    extends?: number;
+    implements?: string;
+}
+
 export class ClassComponent extends Component {
     name = componentTypes.class;
     constructor(parent: IComponent, jsonData: IJsonNode) {
@@ -45,9 +51,11 @@ export class ClassComponent extends Component {
     }
 
     exportData(language: ILanguage) {
-        let clsName = this.jsonData['className'] || this.jsonData['name'];
-        let exts = (this.jsonData['extends']) ? ` ${language['extends']} ${this.jsonData['extends']}` : '';
-        let imps = (this.jsonData['implements']) ? ` ${language['implements']} ${this.jsonData['implements']}` : '';
+        let classJson = <ClassJson>this.jsonData;
+
+        let clsName = classJson.className || classJson.name;
+        let exts = (classJson.extends) ? ` ${language.extends} ${classJson.extends}` : '';
+        let imps = (classJson.implements) ? ` ${language.implements} ${classJson.implements}` : '';
         let fileds = '';
         this.getFields().forEach(it => {
             fileds += it.exportCode(language);

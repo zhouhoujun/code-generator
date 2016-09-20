@@ -118,30 +118,40 @@ export abstract class Component implements IComponent {
     suffixFormat(language: ILanguage): string {
         return this.suffixStrs.join(';\n');
     }
-
-    exportChildrenCode(language: ILanguage) {
-        let childrenCode = '';
-        _.each(this.children, item => {
-            childrenCode += item.exportCode(language);
-        });
-        return childrenCode;
-    }
-
     exportCode(language?: ILanguage): string {
         language = language || TypeScript;
         let self = this;
         let childrenCode = this.exportChildrenCode(language);
-        return _.template(this.exportTemplate(language))({
+        return _.template(this.getTemplate(language))({
             prefix: self.prefixFormat(language),
             suffix: self.suffixFormat(language),
             templateData: self.exportData(language),
             childrenCode: childrenCode
         });
     }
-    protected exportTemplate(language: ILanguage): string {
-        return language[this.name];
+
+    protected getChildren() {
+        return this.children;
     }
+
+    protected exportChildrenCode(language: ILanguage) {
+        let childrenCode = '';
+        _.each(this.getChildren(), item => {
+            childrenCode += item.exportCode(language);
+        });
+        return childrenCode;
+    }
+
+    protected getTemplate(language: ILanguage): string {
+        return language.template[this.name];
+    }
+
+    protected getOpter(language: ILanguage, opter: string): string {
+        return language.opters ? (language.opters[opter] || opter) : opter;
+    }
+
     protected abstract exportData(language: ILanguage): string | {};
+
     protected insert(array: string[], code: string, index?: number) {
         if (index !== undefined) {
             array.splice(index, 0, code);

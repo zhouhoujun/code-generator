@@ -10,7 +10,7 @@ export interface IMap<T> {
 }
 
 // export * from '../IComponent';
-export interface IJsonNode extends IMap<string|Number|Boolean|IJsonNode[]> {
+export interface IJsonNode extends IMap<string | Number | Boolean | any[]> {
     /**
      * type 
      * 
@@ -18,6 +18,13 @@ export interface IJsonNode extends IMap<string|Number|Boolean|IJsonNode[]> {
      * @memberOf IJsonNode
      */
     t: string;
+    /**
+     * the node name. class name, field name...
+     * 
+     * @type {string}
+     * @memberOf IJsonNode
+     */
+    name: string;
     /**
      * children json node.
      * 
@@ -152,16 +159,28 @@ export interface IComponent {
 }
 
 export interface ILanguage {
-    code: string;
     defaultType?: string;
+    methodDefaultType?: string;
+    extends?: string;
+    implements?: string;
     defaultLevel?: number;
     levels?: string[];
+    opters?: IMap<string>;
+    args?: IMap<string>;
+    template: ILanguageTemplate;
+}
+export interface ILanguageTemplate {
+    code: string;
     class?: string;
     params: string;
+    args: string;
+    arg: string;
     constructors?: string;
     method: string;
     field: string;
     attr?: string;
+    attr_getter?: string;
+    attr_setter?: string;
     func?: string;
     lambda?: string;
     express: string;
@@ -172,10 +191,12 @@ export interface ILanguage {
     case: string;
 }
 
-export default <ILanguage>{
+export default <ILanguageTemplate>{
     code: 'code',
     class: 'class',
     params: 'params',
+    args: 'args',
+    arg: 'arg',
     constructors: 'constructors',
     method: 'method',
     field: 'field',
