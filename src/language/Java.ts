@@ -8,10 +8,13 @@ export default <ILanguage>{
     implements: 'implements',
     exportLevel: [
         '',
-        'export'
+        'public',
+        'internal'
     ],
-    argMiss: '?',
-    argAssign: ' = ',
+    args: {
+        miss: '?'
+    },
+
     // opters: {
     //     '+': '+',
     //     '-': '-',
@@ -19,7 +22,7 @@ export default <ILanguage>{
     //     '/': '/',
     //     '=': '='
     // },
-    defaultLevel: 0,
+    defaultLevel: 2,
     levels: [
         'public',
         'protected',
@@ -29,7 +32,7 @@ export default <ILanguage>{
     template: {
         code: `
 \${templateData.imports}
-\${templateData.openLevel}
+\${templateData.namespace}
 \${childrenCode}
 `,
         class: `

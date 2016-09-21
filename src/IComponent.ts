@@ -163,10 +163,13 @@ export interface ILanguage {
     methodDefaultType?: string;
     extends?: string;
     implements?: string;
+    export?: string;
     defaultLevel?: number;
     levels?: string[];
     opters?: IMap<string>;
-    args?: IMap<string>;
+    argAssign?: string;
+    argMiss?: string;
+    argWays?: string[];
     template: ILanguageTemplate;
 }
 export interface ILanguageTemplate {

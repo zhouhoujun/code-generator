@@ -3,6 +3,7 @@ import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 import * as _ from 'lodash';
 
 export interface Arg {
+    way?: number;
     type?: string;
     name: string;
     val: any;
@@ -13,7 +14,7 @@ export interface ArgsJson extends IJsonNode {
     args: Arg[];
 }
 
-export class ArgsComponent extends Component {
+export class ArgsComponent extends Component implements IComponent {
     name = componentTypes.args;
     constructor(parent: IComponent, jsonData: IJsonNode) {
         super(parent, jsonData);
@@ -27,9 +28,10 @@ export class ArgsComponent extends Component {
         let args = _.map((<ArgsJson>this.jsonData).args || [], it => {
             return _.template(this.getTemplate(language))({
                 name: it.name,
-                miss: it.miss ? language.args['miss'] : '',
+                way: it.way ? language.argWays[it.way] : '',
+                miss: it.miss ? language.argMiss : '',
                 type: it.type || language.defaultType,
-                val: _.isUndefined(it.val) ? '' : (language.args['assign'] + it.val)
+                val: _.isUndefined(it.val) ? '' : (language.argAssign + it.val)
             });
         });
 

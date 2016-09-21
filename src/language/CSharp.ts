@@ -4,14 +4,22 @@ export default <ILanguage>{
 
     defaultType: 'any',
     methodDefaultType: 'any',
-    extends: 'extends',
-    implements: 'implements',
+    extends: ':',
+    implements: ':',
     exportLevel: [
         '',
-        'export'
+        'public',
+        'internal'
     ],
-    argMiss: '?',
+
+    argMiss: '',
     argAssign: ' = ',
+    argWays: [
+        '',
+        'ref',
+        'out'
+    ],
+
     // opters: {
     //     '+': '+',
     //     '-': '-',
@@ -19,7 +27,7 @@ export default <ILanguage>{
     //     '/': '/',
     //     '=': '='
     // },
-    defaultLevel: 0,
+    defaultLevel: 2,
     levels: [
         'public',
         'protected',
@@ -29,7 +37,7 @@ export default <ILanguage>{
     template: {
         code: `
 \${templateData.imports}
-\${templateData.openLevel}
+\${templateData.namespace}
 \${childrenCode}
 `,
         class: `
@@ -41,7 +49,7 @@ export default <ILanguage>{
 }`,
         params: '${childrenCode}',
         // args: '${childrenCode}',
-        args: '${name}${miss}: ${type}${val}',
+        args: '${way} ${type} ${name}${miss}${val}',
         constructor: `
 \${templateData.openLevel}\constructor(\${ templateData.args }){
     \${childrenCode}

@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import modes, { Component } from './Component';
 import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 
@@ -15,9 +16,10 @@ export class MethodComponent extends Component {
 
     protected exportData(language: ILanguage) {
         let mthJson = <MethodJson>this.jsonData;
-        let levels = language.levels;
-        let idx: number = <number>mthJson.level || language.defaultLevel || 0;
-        let level = levels ? (levels[idx] + ' ') : '';
+
+        let idx = mthJson.level || language.defaultLevel;
+        let level = language.levels ? (language.levels[idx] + ' ') : '';
+
         let name = mthJson.methodName || mthJson.name;
         let args = this.getArgsCode();
         let type = mthJson.type || language.methodDefaultType;

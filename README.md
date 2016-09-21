@@ -4,8 +4,7 @@ This repo is for distribution on `npm`or `jspm`. The source for this module is i
 [main repo](https://github.com/zhouhoujun/code-generator/src/mastert).
 Please file issues and pull requests against that repo.
 
-This package use to help typescript compile with dts.
-can publish dts with package module name.
+This package use to generator data(etc. JSON data) to code (TypeScript, JavaScript, c#, Java...).
 
 ## Install
 

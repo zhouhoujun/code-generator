@@ -3,6 +3,8 @@ import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 
 export interface ClassJson extends IJsonNode {
     className?: string;
+    level?: number;
+    export?: number;
     extends?: number;
     implements?: string;
 }
@@ -54,6 +56,7 @@ export class ClassComponent extends Component {
         let classJson = <ClassJson>this.jsonData;
 
         let clsName = classJson.className || classJson.name;
+        let exportStr = classJson.export ? language.export : '';
         let exts = (classJson.extends) ? ` ${language.extends} ${classJson.extends}` : '';
         let imps = (classJson.implements) ? ` ${language.implements} ${classJson.implements}` : '';
         let fileds = '';
@@ -80,6 +83,7 @@ export class ClassComponent extends Component {
             className: clsName,
             extends: exts,
             implements: imps,
+            export: exportStr,
             fileds: fileds,
             attrs: attrs,
             constructors: constructors,

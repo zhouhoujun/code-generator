@@ -15,9 +15,10 @@ export class ConstructorComponent extends Component {
 
     protected exportData(language: ILanguage) {
         let cstrJson = <ConstructorJson>this.jsonData;
-        let levels = language.levels;
-        let idx: number = <number>cstrJson.level || language.defaultLevel || 0;
-        let level = levels ? (levels[idx] + ' ') : '';
+
+        let idx = cstrJson.level || language.defaultLevel;
+        let level = language.levels ? (language.levels[idx] + ' ') : '';
+
         let args = this.getArgsCode();
         return {
             openLevel: level,

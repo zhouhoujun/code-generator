@@ -4,3 +4,7 @@ export * from './IComponent.ts';
 export * from './Factory.ts';
 export * from './components/Component.ts';
 export * from './builder/Builder.ts';
+export * from './language/TypeScript';
+export * from './language/JavaScript';
+export * from './language/CSharpScript';
+export * from './language/Java';
