@@ -1,5 +1,5 @@
 import { IFactory } from './IFactory';
-import componentTypes, { IComponent } from './IComponent';
+import componentTypes, { IComponent, IJsonNode } from './IComponent';
 import { CodeComponent } from './components/CodeComponent';
 import { ClassComponent } from './components/ClassComponent';
 import { AttrComponent } from './components/AttrComponent';
@@ -7,12 +7,13 @@ import { FuncComponent } from './components/FuncComponent';
 import { ParamsComponent } from './components/ParamsComponent';
 import { FieldComponent } from './components/FieldComponent';
 import { MethodComponent } from './components/MethodComponent';
+import { ConstructorComponent } from './components/ConstructorComponent';
 
 export class Factory implements IFactory {
     constructor() {
 
     }
-    create(jsonNode, parentComponent?: IComponent) {
+    create(jsonNode: IJsonNode, parentComponent?: IComponent) {
         let component;
         switch (jsonNode.t) {
             case componentTypes.code:
@@ -20,6 +21,9 @@ export class Factory implements IFactory {
                 break;
             case componentTypes.class:
                 component = new ClassComponent(parentComponent, jsonNode);
+                break;
+            case componentTypes.constructors:
+                component = new ConstructorComponent(parentComponent, jsonNode);
                 break;
             case componentTypes.attr:
                 component = new AttrComponent(parentComponent, jsonNode);
