@@ -69,7 +69,7 @@ export interface IComponent {
      */
     name: string;
     /**
-     * find sub component via express.
+     * find component node via express.
      * 
      * @param {(IComponent | ((item: IComponent) => boolean))} express
      * @param {string} [mode] {enum:['route','children', traverse']} default traverse.
@@ -90,12 +90,12 @@ export interface IComponent {
      */
     filter(express: ((item: IComponent) => void | boolean), mode?: string): IComponent[]
     /**
-     * find parent component via express.
+     * iterate component via one mode.
      * 
      * @param {(IComponent | ((item: IComponent) => boolean))} express
      * @param {string} [mode] {enum:['route','children', traverse']} default traverse.
      * 
-     * @memberOf IComponent
+     * @memberOf IComponents
      */
     each(express: ((item: IComponent) => void | boolean), mode?: string);
     /**
@@ -177,7 +177,7 @@ export interface ILanguageTemplate {
     class?: string;
     params: string;
     args: string;
-    arg: string;
+    // arg: string;
     constructors?: string;
     method: string;
     field: string;
@@ -199,7 +199,7 @@ export default <ILanguageTemplate>{
     class: 'class',
     params: 'params',
     args: 'args',
-    arg: 'arg',
+    // arg: 'arg',
     constructors: 'constructors',
     method: 'method',
     field: 'field',

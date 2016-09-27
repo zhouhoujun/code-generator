@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
-import modes, { Component } from './Component';
+import modes from './Component';
+import { FuncComponent } from './FuncComponent';
 import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 
 export interface MethodJson extends IJsonNode {
@@ -8,7 +9,7 @@ export interface MethodJson extends IJsonNode {
     type?: string;
     val?: any;
 }
-export class MethodComponent extends Component {
+export class MethodComponent extends FuncComponent {
     name = componentTypes.method;
     constructor(parent: IComponent, jsonData: IJsonNode) {
         super(parent, jsonData);
@@ -21,22 +22,13 @@ export class MethodComponent extends Component {
         let level = language.levels ? (language.levels[idx] + ' ') : '';
 
         let name = mthJson.methodName || mthJson.name;
-        let args = this.getArgsCode();
+        let args = this.getArgsCode(language);
         let type = mthJson.type || language.methodDefaultType;
         return {
             openLevel: level,
-            methodName: name,
+            name: name,
             args: args,
             type: type
         };
-    }
-
-    protected getArgsCode() {
-        let ps = this.find(it => it.name === componentTypes.args);
-        return ps ? ps.exportCode() : '';
-    }
-
-    protected getChildren() {
-        return this.filter(it => it.name !== componentTypes.args, modes.children);
     }
 }

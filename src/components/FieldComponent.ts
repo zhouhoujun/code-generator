@@ -25,7 +25,7 @@ export class FieldComponent extends Component {
         let defaultValue = fieldJson.val ? ` ${this.getOpter(language, '=')} ${fieldJson.val}` : '';
         return {
             openLevel: level,
-            fieldName: field,
+            name: field,
             type: type,
             defaultValue: defaultValue
         };

@@ -80,7 +80,7 @@ export class ClassComponent extends Component {
         });
 
         return {
-            className: clsName,
+            name: clsName,
             extends: exts,
             implements: imps,
             export: exportStr,

@@ -1,5 +1,6 @@
 import modes, { Component } from './Component';
 import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
+import * as _ from 'lodash';
 
 export class ParamsComponent extends Component {
     name = componentTypes.params;

@@ -41,7 +41,7 @@ export default <ILanguage>{
 \${childrenCode}
 `,
         class: `
-\${templateData.export}class \${templateData.className}\${templateData.extends}\${templateData.implements} {
+\${templateData.export}class \${templateData.name}\${templateData.extends}\${templateData.implements} {
 \${ templateData.fileds }
 \${ templateData.attrs }
 \${ templateData.constructors }
@@ -56,27 +56,27 @@ export default <ILanguage>{
 }
 `,
         method: `
-\${templateData.openLevel}\${ templateData.methodName } (\${ templateData.args }): \${templateData.type} {
+\${templateData.openLevel}\${ templateData.name } (\${ templateData.args }): \${templateData.type} {
     \${childrenCode}
 }
 `,
         field: `
-\${templateData.openLevel}\${ templateData.fieldName }: \${templateData.type}\${templateData.defaultValue}
+\${templateData.openLevel}\${ templateData.name }: \${templateData.type}\${templateData.defaultValue}
 `,
         attr: '${childrenCode}',
         attr_getter: `
-get \${ templateData.methodName } (): \${templateData.type} {
+get \${ templateData.name } (): \${templateData.type} {
     \${childrenCode}
 }`,
         attr_setter: `
-set \${ templateData.methodName } (\${ templateData.params }): \${templateData.type} {
+set \${ templateData.name } (\${ templateData.args }): \${templateData.type} {
     \${childrenCode}
 }`,
         func: `
-function \${ templateData.funcName } (\${templateData.params}): \${templateData.type} {
+function \${ templateData.funcName } (\${templateData.args}): \${templateData.type} {
     \${childrenCode}
 }`,
-        lambda: `(\${templateData.params}) => {
+        lambda: `(\${templateData.args}) => {
         \${childrenCode}
     }`,
         express: '${paramA} ${opter} ${paramsB}',

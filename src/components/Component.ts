@@ -150,7 +150,7 @@ export abstract class Component implements IComponent {
         return language.opters ? (language.opters[opter] || opter) : opter;
     }
 
-    protected abstract exportData(language: ILanguage): string | {};
+    protected abstract exportData(language: ILanguage): any;
 
     protected insert(array: string[], code: string, index?: number) {
         if (index !== undefined) {

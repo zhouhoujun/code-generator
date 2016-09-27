@@ -7,29 +7,23 @@ export class FuncComponent extends Component {
         super(parent, jsonData);
     }
 
-    protected getParams(): IComponent {
-        return this.find(it => it.name === componentTypes.params);
-    }
-
-    exportData(language: ILanguage) {
-        let params = this.getParams();
-        let paramsStr = params.exportCode(language);
+    protected exportData(language: ILanguage): any {
+        let args = this.getArgsCode(language);
         let name = this.jsonData['funcName'] || this.jsonData['name'];
         let type = this.jsonData['type'] || language.defaultType;
         return {
-            funcName: name,
-            params: paramsStr,
+            name: name,
+            args: args,
             type: type
         };
     }
 
-    exportChildrenCode(language: ILanguage) {
-        let code = '';
-        this.each(item => {
-            if (item.name !== componentTypes.params) {
-                code += item.exportCode(language);
-            }
-        }, modes.children);
-        return code;
+    protected getArgsCode(language: ILanguage): string {
+        let args = this.find(it => it.name === componentTypes.args);
+        return args ? args.exportCode() : '';
+    }
+
+    protected getChildren() {
+        return this.filter(it => it.name !== componentTypes.args, modes.children);
     }
 }

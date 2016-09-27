@@ -1,4 +1,5 @@
-import modes, { Component } from './Component';
+import modes from './Component';
+import { FuncComponent } from './FuncComponent';
 import componentTypes, {IJsonNode, IComponent, ILanguage } from '../IComponent';
 
 export interface ConstructorJson extends IJsonNode {
@@ -7,7 +8,8 @@ export interface ConstructorJson extends IJsonNode {
     type?: string;
     val?: any;
 }
-export class ConstructorComponent extends Component {
+
+export class ConstructorComponent extends FuncComponent {
     name = componentTypes.constructors;
     constructor(parent: IComponent, jsonData: IJsonNode) {
         super(parent, jsonData);
@@ -19,19 +21,10 @@ export class ConstructorComponent extends Component {
         let idx = cstrJson.level || language.defaultLevel;
         let level = language.levels ? (language.levels[idx] + ' ') : '';
 
-        let args = this.getArgsCode();
+        let args = this.getArgsCode(language);
         return {
             openLevel: level,
             args: args
         };
-    }
-
-    protected getArgsCode() {
-        let ps = this.find(it => it.name === componentTypes.args);
-        return ps ? ps.exportCode() : '';
-    }
-
-    protected getChildren() {
-        return this.filter(it => it.name !== componentTypes.args, modes.children);
     }
 }
